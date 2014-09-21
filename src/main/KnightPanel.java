@@ -1,8 +1,11 @@
 package main;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
 
 public class KnightPanel extends JPanel {
 
@@ -23,11 +26,13 @@ public class KnightPanel extends JPanel {
 		for(int i = 0; i < boardSize; i++){
 			for (int j = 0; j < boardSize; j++){
 				g.drawRect(offset+(i*squareSize), offset+(j*squareSize), squareSize, squareSize);
-				if(board[i][j].isVisited()){
-					g.drawLine((board[i][j].getHere().x * squareSize)+offset + squareSize/2, (board[i][j].getHere().y * squareSize) +offset + squareSize/2, (board[i][j].getFrom().x * squareSize)+offset + squareSize/2, (board[i][j].getFrom().y * squareSize)+offset + squareSize/2);
+				if(board[i][j]!=null && board[i][j].isVisited()){					
+					Arrow.drawArrow(g, (board[i][j].getHere().x * squareSize)+offset + squareSize/2, (board[i][j].getHere().y * squareSize) +offset + squareSize/2, (board[i][j].getFrom().x * squareSize)+offset + squareSize/2, (board[i][j].getFrom().y * squareSize)+offset + squareSize/2);
 				}
 			}
 		}
+		Graphics2D g2d;
+		
 	}
 	
 	public void setBoard(Move[][] b){
