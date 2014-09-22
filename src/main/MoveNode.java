@@ -45,4 +45,12 @@ public class MoveNode {
 	public List<MoveNode> getNeighbours() {
 		return this.neighbours;
 	}
+
+	public boolean anyUnvisitedNeghbours() {
+		for(MoveNode m : neighbours){
+			if(!m.visited)
+				return true;
+		}
+		return false;
+	}
 }

@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 public class KnightsTourOPT {
 
 	private int boardSize;
+	private int[] rowVisitCount;
+	private int[] colVisitCount;
 	private KnightPanelOPT p;
 	private ArrayList<Point> allowedMoves = new ArrayList<Point>(Arrays.asList(
 																new Point(2,1),
@@ -26,7 +28,11 @@ public class KnightsTourOPT {
 
 	public KnightsTourOPT(int size) {
 		this.boardSize = size;
+		this.rowVisitCount = new int[boardSize];
+		this.colVisitCount = new int[boardSize];
+		
 		MoveNode[][] board = new MoveNode[size][size];
+		
 
 		JFrame frame = new JFrame();
 		frame.setSize(new Dimension(670,700));
@@ -71,15 +77,22 @@ long dur = System.currentTimeMillis() - st;
 	public boolean knightBT(MoveNode[][] b, MoveNode here, MoveNode from, int n,int k){
 //68660 reg
 //18869 opt
-		
-		//if(disjointSquare(b))
-		//	return false;
+		if(k > ((n*n)/2)){
+			//if(disjointSquare(b))
+			//	return false;
+			
+			if(disconnected()){
+				return false;
+			}
+		}
 		
 		++count;
 		
 		if(k != 1){
 			here.setVisited(true);
 			here.setFrom(from);
+			this.rowVisitCount[here.getHere().x]++;
+			this.colVisitCount[here.getHere().y]++;
 		}
 // add a wait so that the algorithm can be watched. Have it be done via a switch in the gui
 //		try {
@@ -106,7 +119,8 @@ long dur = System.currentTimeMillis() - st;
 			}
 				
 		}
-
+		this.rowVisitCount[here.getHere().x]--;
+		this.colVisitCount[here.getHere().y]--;
 		b[hereI][hereJ].setVisited(false);
 		b[hereI][hereJ].setFrom(null);
 
@@ -114,33 +128,32 @@ long dur = System.currentTimeMillis() - st;
 	}
 	
 
+	private boolean disconnected() {
+		for(int i = 1; i < boardSize -3; i++){
+			if(rowVisitCount[i-1] < boardSize && rowVisitCount[i] == boardSize && rowVisitCount[i+1] == boardSize && rowVisitCount[i+2] < boardSize 
+			   || colVisitCount[i-1] < boardSize && colVisitCount[i] == boardSize && colVisitCount[i+1] == boardSize && colVisitCount[i+2] < boardSize){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private boolean disjointSquare(MoveNode[][] b) {
 		for(int i = 0; i < boardSize; i++){
 			for(int j = 0; j < boardSize; j++){
-				if(!b[i][j].isVisited() && noViableMoveNodes(b, b[i][j]))
+				if(!b[i][j].isVisited() && !b[i][j].anyUnvisitedNeghbours())
 					return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean noViableMoveNodes(MoveNode[][] b, MoveNode m) {
-		int x = m.getHere().x;
-		int y = m.getHere().y;
-		
-		for(Point p : allowedMoves){
-			int nextI = x + p.x;
-			int nextJ = y + p.y;
-			
-			if(0 <= (nextI) && (nextI) < boardSize && 0 <= (nextJ) && (nextJ) < boardSize && !b[nextI][nextJ].isVisited()){
-				return false;
-			}
-		}
-		return true;
-	}
+	
 
 	public static void main(String[] args){
-		KnightsTourOPT k = new KnightsTourOPT(5);
+		KnightsTourOPT k = new KnightsTourOPT(6);
+		//455810968 24648 with disct for 6
+		//540925981 22080 otherwise for 6
 	}
 }
 

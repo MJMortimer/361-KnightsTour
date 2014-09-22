@@ -34,8 +34,6 @@ public class KnightsTour {
 
 		frame.setVisible(true);
 
-
-
 		for(int i = 0; i < boardSize; i++){
 			for(int j = 0; j < boardSize; j++){
 				board[i][j] = new Move(new Point(i,j));
@@ -83,14 +81,13 @@ public class KnightsTour {
 		b[hereI][hereJ].setFrom(null);
 
 		return false;
-
-
 	}
 
 
 
 	public static void main(String[] args){
-		KnightsTour k = new KnightsTour(5);
+		KnightsTour k = new KnightsTour(6);
+		//540925981
 	}
 }
 
