@@ -75,25 +75,23 @@ long dur = System.currentTimeMillis() - st;
 	}
 
 	public boolean knightBT(MoveNode[][] b, MoveNode here, MoveNode from, int n,int k){
-//68660 reg
-//18869 opt
-		if(k > ((n*n)/2)){
-			//if(disjointSquare(b))
-			//	return false;
-			
-			if(disconnected()){
-				return false;
-			}
-		}
+//		if(k > ((n*n)/2)){
+//			//if(disjointSquare(b))
+//			//	return false;
+//			
+//			if(disconnected()){
+//				return false;
+//			}
+//		}
 		
 		++count;
 		
-		if(k != 1){
+		//if(k != 1){
 			here.setVisited(true);
 			here.setFrom(from);
-			this.rowVisitCount[here.getHere().x]++;
-			this.colVisitCount[here.getHere().y]++;
-		}
+			//this.rowVisitCount[here.getHere().x]++;
+			//this.colVisitCount[here.getHere().y]++;
+		//}
 // add a wait so that the algorithm can be watched. Have it be done via a switch in the gui
 //		try {
 //			Thread.sleep(500);
@@ -107,20 +105,21 @@ long dur = System.currentTimeMillis() - st;
 		int hereI = here.getHere().x;
 		int hereJ = here.getHere().y;
 		
-		if(k == (n*n)+1 && hereI == 0 && hereJ == 0)
+		if(k == (n*n))//+1 && hereI == 0 && hereJ == 0)
 			return true;
 		
 		
-		for(MoveNode next : here.getNeighbours()){
-			if(!next.isVisited()){
+		for(MoveNode next : here.getSortedNeighbours()){
+			if(next != from && !next.isVisited()){
 				if(knightBT(b, next, here, n, k+1)){
 					return true;
 				}
 			}
 				
 		}
-		this.rowVisitCount[here.getHere().x]--;
-		this.colVisitCount[here.getHere().y]--;
+		//this.rowVisitCount[here.getHere().x]--;
+		//this.colVisitCount[here.getHere().y]--;
+		System.out.println("backing");
 		b[hereI][hereJ].setVisited(false);
 		b[hereI][hereJ].setFrom(null);
 
@@ -151,9 +150,10 @@ long dur = System.currentTimeMillis() - st;
 	
 
 	public static void main(String[] args){
-		KnightsTourOPT k = new KnightsTourOPT(6);
+		KnightsTourOPT k = new KnightsTourOPT(15);
 		//455810968 24648 with disct for 6
 		//540925981 22080 otherwise for 6
+		//98803214 36762
 	}
 }
 

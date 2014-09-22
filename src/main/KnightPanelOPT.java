@@ -28,7 +28,7 @@ public class KnightPanelOPT extends JPanel {
 			for (int j = 0; j < boardSize; j++){
 				g.drawRect(offset+(i*squareSize), offset+(j*squareSize), squareSize, squareSize);
 				assert board[i][j] != null : board[i][j];
-				if(board !=null && board[i][j]!=null && board[i][j].isVisited()){
+				if(board !=null && board[i][j]!=null && board[i][j].getFrom()!=null && board[i][j].isVisited()){
 					int extra = offset + squareSize/2;
 					Point from = board[i][j].getFrom().getHere();
 					Point here = board[i][j].getHere();
