@@ -21,50 +21,52 @@ public class KnightsTour {
 																new Point(-1,-2),
 																new Point(-2,1),
 																new Point(-2,-1))) ;
-	
+	private int count = 0;
+
 	public KnightsTour(int size) {
 		this.boardSize = size;
 		Move[][] board = new Move[size][size];
-		
+
 		JFrame frame = new JFrame();
-		frame.setSize(new Dimension(670,700));		
+		frame.setSize(new Dimension(670,700));
 		this.p = new KnightPanel(size);
 		frame.add(p);
-		
+
 		frame.setVisible(true);
-		
-		
-		
+
+
+
 		for(int i = 0; i < boardSize; i++){
 			for(int j = 0; j < boardSize; j++){
-				for(int k = 0; k < boardSize; k++){
-					for(int l = 0; l < boardSize; l++){
-						board[k][l] = new Move(new Point(k,l));
-					}
-				}
-				knightBT(board, i, j, i, j, boardSize, 1);
+				board[i][j] = new Move(new Point(i,j));
 			}
 		}
-		
+
+		knightBT(board, 0, 0, 0, 0, boardSize, 1);
+		this.p.setBoard(board);
+		this.p.repaint();
+
 		System.out.println("done");
-		
-		
+
+
 	}
-	
+
 	public boolean knightBT(Move[][] b, int hereI,int hereJ, int fromI, int fromJ, int n,int k){
-		b[hereI][hereJ].setVisited(true);
-		b[hereI][hereJ].setFrom(new Point(fromI, fromJ));		
+		if(k != 1){
+			b[hereI][hereJ].setVisited(true);
+			b[hereI][hereJ].setFrom(new Point(fromI, fromJ));
+		}
 // add a wait so that the algorithm can be watched. Have it be done via a switch in the gui
 //		try {
-//			Thread.sleep(1000);
+//			Thread.sleep(25);
 //		} catch (InterruptedException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		this.p.setBoard(b);
-		this.p.repaint();
-		
-		if(k == n*n)
+//		this.p.setBoard(b);
+//		this.p.repaint();
+
+		if(k == (n*n)+1 && hereI == 0 && hereJ == 0)
 			return true;
 		for(Point p : allowedMoves){
 			int nextI = hereI + p.x;
@@ -75,17 +77,20 @@ public class KnightsTour {
 				}
 			}
 		}
-		
+
 		b[hereI][hereJ].setVisited(false);
 		b[hereI][hereJ].setFrom(null);
+
 		return false;
-		
-		
+
+
 	}
 
 
 
 	public static void main(String[] args){
-		KnightsTour k = new KnightsTour(5);
+		KnightsTour k = new KnightsTour(7);
 	}
 }
+
+
