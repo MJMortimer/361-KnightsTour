@@ -8,6 +8,7 @@ public class Move {
 	private Point from;
 	private boolean visited;
 	
+	
 	public Move(Point here) {
 		this.here = here;
 		this.visited = false;

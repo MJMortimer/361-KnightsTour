@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 
 import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
 
-public class KnightPanel extends JPanel {
+public class KnightPanelOPT extends JPanel {
 
 	public int boardSize;
 	public int squareSize;
 	public int offset = 10;
-	public Move[][] board;
+	public MoveNode[][] board;
 
-	public KnightPanel(int size){
+	public KnightPanelOPT(int size){
 		this.boardSize = size;
 		squareSize = (670-(2*offset)) / boardSize;
 	}
@@ -30,7 +30,7 @@ public class KnightPanel extends JPanel {
 				assert board[i][j] != null : board[i][j];
 				if(board !=null && board[i][j]!=null && board[i][j].isVisited()){
 					int extra = offset + squareSize/2;
-					Point from = board[i][j].getFrom();
+					Point from = board[i][j].getFrom().getHere();
 					Point here = board[i][j].getHere();
 					Arrow.drawArrow(g, (from.x * squareSize)+extra, (from.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
 				}
@@ -40,7 +40,7 @@ public class KnightPanel extends JPanel {
 
 	}
 
-	public void setBoard(Move[][] b){
+	public void setBoard(MoveNode[][] b){
 		this.board = b;
 	}
 }

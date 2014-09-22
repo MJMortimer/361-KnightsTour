@@ -46,12 +46,13 @@ public class KnightsTour {
 		this.p.setBoard(board);
 		this.p.repaint();
 
-		System.out.println("done");
+		System.out.println("done "+ count);
 
 
 	}
 
 	public boolean knightBT(Move[][] b, int hereI,int hereJ, int fromI, int fromJ, int n,int k){
+		++count;
 		if(k != 1){
 			b[hereI][hereJ].setVisited(true);
 			b[hereI][hereJ].setFrom(new Point(fromI, fromJ));
@@ -89,7 +90,7 @@ public class KnightsTour {
 
 
 	public static void main(String[] args){
-		KnightsTour k = new KnightsTour(7);
+		KnightsTour k = new KnightsTour(5);
 	}
 }
 
