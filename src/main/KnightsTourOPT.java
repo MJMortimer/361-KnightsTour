@@ -12,8 +12,6 @@ import javax.swing.JFrame;
 public class KnightsTourOPT {
 
 	private int boardSize;
-	private int[] rowVisitCount;
-	private int[] colVisitCount;
 	private KnightPanelOPT p;
 	private ArrayList<Point> allowedMoves = new ArrayList<Point>(Arrays.asList(
 																new Point(2,1),
@@ -28,8 +26,6 @@ public class KnightsTourOPT {
 
 	public KnightsTourOPT(int size) {
 		this.boardSize = size;
-		this.rowVisitCount = new int[boardSize];
-		this.colVisitCount = new int[boardSize];
 		
 		MoveNode[][] board = new MoveNode[size][size];
 		
@@ -63,9 +59,9 @@ public class KnightsTourOPT {
 			}
 		}
 		
-long st = System.currentTimeMillis();
+		long st = System.currentTimeMillis();
 		boolean isone = knightBT(board, board[0][0], null, boardSize, 1);
-long dur = System.currentTimeMillis() - st; 
+		long dur = System.currentTimeMillis() - st; 
 		this.p.setBoard(board);
 		this.p.repaint();
 
@@ -75,23 +71,33 @@ long dur = System.currentTimeMillis() - st;
 	}
 
 	public boolean knightBT(MoveNode[][] b, MoveNode here, MoveNode from, int n,int k){
-//		if(k > ((n*n)/2)){
-//			//if(disjointSquare(b))
-//			//	return false;
-//			
-//			if(disconnected()){
-//				return false;
-//			}
-//		}
-		
+/*
+		if(k > ((n*n)/2)){
+			if(k < (n*n)+1 && disjointSquare(b))
+				return false;
+			
+			if(disconnected()){
+				return false;
+			}
+		}
+ */
 		++count;
 		
-		//if(k != 1){
+		if(k != 1){
 			here.setVisited(true);
-			here.setFrom(from);
-			//this.rowVisitCount[here.getHere().x]++;
-			//this.colVisitCount[here.getHere().y]++;
-		//}
+			here.setFrom(from.getHere());
+		}
+		
+		int hereI = here.getHere().x;
+		int hereJ = here.getHere().y;
+		
+		if(k < (n*n)+1 && from != null && disconnectionFrom(from)){
+			b[hereI][hereJ].setVisited(false);
+			b[hereI][hereJ].setFrom(null);
+			return false;
+			
+		}
+		
 // add a wait so that the algorithm can be watched. Have it be done via a switch in the gui
 //		try {
 //			Thread.sleep(500);
@@ -102,12 +108,10 @@ long dur = System.currentTimeMillis() - st;
 //		this.p.setBoard(b);
 //		this.p.repaint();
 
-		int hereI = here.getHere().x;
-		int hereJ = here.getHere().y;
 		
-		if(k == (n*n))//+1 && hereI == 0 && hereJ == 0)
+		
+		if(k == (n*n)+1 && hereI == 0 && hereJ == 0)
 			return true;
-		
 		
 		for(MoveNode next : here.getSortedNeighbours()){
 			if(next != from && !next.isVisited()){
@@ -117,25 +121,32 @@ long dur = System.currentTimeMillis() - st;
 			}
 				
 		}
-		//this.rowVisitCount[here.getHere().x]--;
-		//this.colVisitCount[here.getHere().y]--;
-		System.out.println("backing");
+//		System.out.println("backing");
 		b[hereI][hereJ].setVisited(false);
 		b[hereI][hereJ].setFrom(null);
 
 		return false;
 	}
 	
-
-	private boolean disconnected() {
-		for(int i = 1; i < boardSize -3; i++){
-			if(rowVisitCount[i-1] < boardSize && rowVisitCount[i] == boardSize && rowVisitCount[i+1] == boardSize && rowVisitCount[i+2] < boardSize 
-			   || colVisitCount[i-1] < boardSize && colVisitCount[i] == boardSize && colVisitCount[i+1] == boardSize && colVisitCount[i+2] < boardSize){
+	private boolean disconnectionFrom(MoveNode node) {
+		for(MoveNode next : node.getNeighbours()){
+			if(!next.isVisited() && !next.anyUnvisitedNeghbours())
 				return true;
-			}
 		}
 		return false;
 	}
+/*
+//	private boolean disconnected() {
+//		for(int i = 1; i < boardSize -3; i++){
+//			if(rowVisitCount[i-1] < boardSize && rowVisitCount[i] == boardSize && rowVisitCount[i+1] == boardSize && rowVisitCount[i+2] < boardSize 
+//			   || colVisitCount[i-1] < boardSize && colVisitCount[i] == boardSize && colVisitCount[i+1] == boardSize && colVisitCount[i+2] < boardSize){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+ */
+ 
 
 	private boolean disjointSquare(MoveNode[][] b) {
 		for(int i = 0; i < boardSize; i++){
@@ -150,7 +161,7 @@ long dur = System.currentTimeMillis() - st;
 	
 
 	public static void main(String[] args){
-		KnightsTourOPT k = new KnightsTourOPT(15);
+		KnightsTourOPT k = new KnightsTourOPT(10);
 		//455810968 24648 with disct for 6
 		//540925981 22080 otherwise for 6
 		//98803214 36762

@@ -86,7 +86,7 @@ public class KnightsTour {
 
 
 	public static void main(String[] args){
-		KnightsTour k = new KnightsTour(6);
+		KnightsTour k = new KnightsTour(12);
 		//540925981
 	}
 }

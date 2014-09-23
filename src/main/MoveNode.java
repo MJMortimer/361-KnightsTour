@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
-public class MoveNode implements Comparable<MoveNode> {
+public class MoveNode implements Comparable<MoveNode>, Cloneable {
 	
 	private Point here;
-	private MoveNode from;
+	private Point from;
 	private boolean visited;
 	List<MoveNode> neighbours;
 	
@@ -28,11 +28,11 @@ public class MoveNode implements Comparable<MoveNode> {
 		return here;
 	}
 
-	public MoveNode getFrom() {
+	public Point getFrom() {
 		return from;
 	}
 	
-	public void setFrom(MoveNode m){
+	public void setFrom(Point m){
 		this.from = m;
 	}
 	
@@ -63,19 +63,7 @@ public class MoveNode implements Comparable<MoveNode> {
 
 	@Override
 	public int compareTo(MoveNode other) {
-		int thisUnv = this.numberUnvisted();
-		int otherUnv = other.numberUnvisted();
-		
-		if(thisUnv < otherUnv)
-			return -1;
-		else if(thisUnv > otherUnv)
-			return 1;
-//		else if (this.neighbours.size() > other.getNeighbours().size())
-//			return -1;
-//		else if (this.neighbours.size() < other.getNeighbours().size())
-//			return 1;
-		else return 0;
-					
+		return this.numberUnvisted() - other.numberUnvisted();					
 	}
 
 	private int numberUnvisted() {
@@ -86,4 +74,27 @@ public class MoveNode implements Comparable<MoveNode> {
 		}		
 		return count;
 	}
+
+	public void incBoth(int size1) {
+		incRow(size1);
+		incCol(size1);
+	}
+
+	public void incRow(int size1) {
+		this.here.x+=size1;
+	}
+
+	public void incCol(int size1) {
+		this.here.y+=size1;
+	}
+	
+	//A very barebones clone method
+	protected MoveNode clone(){
+
+	    MoveNode clone = new MoveNode(new Point(this.getHere().x, this.getHere().y));
+	    clone.setFrom(new Point(this.getFrom().x, this.getFrom().y));
+	    clone.visited = this.visited;
+	    return clone;
+
+	  }
 }
