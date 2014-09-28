@@ -12,6 +12,7 @@ public class MoveNode implements Comparable<MoveNode>, Cloneable {
 	private Point from;
 	private boolean visited;
 	List<MoveNode> neighbours;
+	private Point parberryPoint;
 	
 	
 	public MoveNode(Point here) {
@@ -34,6 +35,14 @@ public class MoveNode implements Comparable<MoveNode>, Cloneable {
 	
 	public void setFrom(Point m){
 		this.from = m;
+	}
+	
+	public void setParberryPoint(Point p){
+		this.parberryPoint = p;
+	}
+	
+	public Point getParberryPoint(){
+		return this.parberryPoint;
 	}
 	
 	public void setVisited(boolean v){

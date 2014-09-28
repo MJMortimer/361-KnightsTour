@@ -32,7 +32,7 @@ public class KnightPanel extends JPanel {
 					int extra = offset + squareSize/2;
 					Point from = board[i][j].getFrom();
 					Point here = board[i][j].getHere();
-					Arrow.drawArrow(g, (from.x * squareSize)+extra, (from.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
+					g.drawLine((from.x * squareSize)+extra, (from.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
 				}
 			}
 		}

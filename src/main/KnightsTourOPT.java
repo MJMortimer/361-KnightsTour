@@ -161,7 +161,7 @@ public class KnightsTourOPT {
 	
 
 	public static void main(String[] args){
-		KnightsTourOPT k = new KnightsTourOPT(10);
+		KnightsTourOPT k = new KnightsTourOPT(6);
 		//455810968 24648 with disct for 6
 		//540925981 22080 otherwise for 6
 		//98803214 36762

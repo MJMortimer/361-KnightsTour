@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import sun.security.util.Length;
+
 public class KnightsTourParb {
 
 	private int boardSize;
@@ -95,7 +97,7 @@ public class KnightsTourParb {
 
 		
 		//base case
-		if(h <= 10 && w <= 10){
+		if(h <= 12 && w <= 12){
 			//this.rowVisitCount = new int[boardSize];
 			//this.colVisitCount = new int[boardSize];
 			if(h == 6 && w == 6 && sixXsix != null){
@@ -143,21 +145,21 @@ public class KnightsTourParb {
 
 			System.out.println("done "+ count + " " +dur);
 			
-			if(h == 6 && w == 6){
-				sixXsix = board;
-			}else if(h == 6 && w == 8){
-				sixXeight = board;
-			}else if(h == 8 && w == 6){
-				eightXsix = board;
-			}else if(h == 8 && w == 8){
-				eightXeight = board;
-			}else if(h == 8 && w == 10){
-				eightXten = board;
-			}else if(h == 10 && w == 8){
-				tenXeight = board;
-			}else if(h == 10 && w == 10){
-				tenXten = board;
-			}			
+//			if(h == 6 && w == 6){
+//				sixXsix = board;
+//			}else if(h == 6 && w == 8){
+//				sixXeight = board;
+//			}else if(h == 8 && w == 6){
+//				eightXsix = board;
+//			}else if(h == 8 && w == 8){
+//				eightXeight = board;
+//			}else if(h == 8 && w == 10){
+//				eightXten = board;
+//			}else if(h == 10 && w == 8){
+//				tenXeight = board;
+//			}else if(h == 10 && w == 10){
+//				tenXten = board;
+//			}			
 			
 			return board;
 		}
@@ -178,12 +180,12 @@ public class KnightsTourParb {
 		}
 
 		//conquer
-		MoveNode[][] b1 = runAlg(size1, size1);
-		MoveNode[][] b2 = runAlg(size1, size2);
-		MoveNode[][] b3 = runAlg(size2, size1);
-		MoveNode[][] b4 = runAlg(size2, size2);
+		MoveNode[][] board1 = runAlg(size1, size1);
+		MoveNode[][] board2 = runAlg(size1, size2);
+		MoveNode[][] board3 = runAlg(size2, size1);
+		MoveNode[][] board4 = runAlg(size2, size2);
 		
-		if(b1[0][0] == b2[0][0])
+		if(board1[0][0] == board2[0][0])
 			System.out.println("fak");
 				
 		//combine		
@@ -192,37 +194,89 @@ public class KnightsTourParb {
 		//top left
 		for(int r = 0; r < size1; r++){
 			for(int c = 0; c < size1; c++){
-				combined[r][c] = b1[r][c];
+				combined[r][c] = board1[r][c];
 			}
 		}
 		
 		//top right
 		for(int r = 0; r < size1; r++){
 			for(int c = size1; c < size1+size2; c++){
-				b2[r][c - size1].incCol(size1);
-				combined[r][c] = b2[r][c-size1];
+				board2[r][c - size1].incCol(size1);
+				combined[r][c] = board2[r][c-size1];
 			}
 		}
 		
 		//bottom left
 		for(int r = size1; r < size1+size2; r++){
 			for(int c = 0; c < size1; c++){
-				b3[r-size1][c].incRow(size1);
-				combined[r][c] = b3[r-size1][c];
+				board3[r-size1][c].incRow(size1);
+				combined[r][c] = board3[r-size1][c];
 			}
 		}
 		
 		//bottom right
 		for(int r = size1; r < size1+size2; r++){
 			for(int c = size1; c < size1+size2; c++){
-				b4[r-size1][c-size1].incBoth(size1);
-				combined[r][c] = b4[r-size1][c-size1];
+				board4[r-size1][c-size1].incBoth(size1);
+				combined[r][c] = board4[r-size1][c-size1];
 			}
 		}
 		
 		
+		MoveNode a1 = combined[size1-1][size1-2];
+		MoveNode a2 = combined[size1-3][size1-1];
+		
+		MoveNode b1 = combined[size1+1][size1-3];
+		MoveNode b2 = combined[size1][size1-1];
+		
+		MoveNode c1 = combined[size1+2][size1];
+		MoveNode c2 = combined[size1][size1+1];
+		
+		MoveNode d1 = combined[size1-1][size1];
+		MoveNode d2 = combined[size1-2][size1+2];
+		System.out.println(a1.getHere());
+		System.out.println(a2.getHere());
+		System.out.println(b1.getHere());
+		System.out.println(b2.getHere());
+		System.out.println(c1.getHere());
+		System.out.println(c2.getHere());
+		System.out.println(d1.getHere());
+		System.out.println(d2.getHere());
+		
+
+		
+		if(a1.getFrom().equals(a2.getHere())){
+			a1.setFrom(null);
+		}else{
+			a2.setFrom(null);
+		}
+		
+		if(b1.getFrom().equals(b2.getHere())){
+			b1.setFrom(null);
+		}else{
+			b2.setFrom(null);
+		}
+		
+		if(c1.getFrom().equals(c2.getHere())){
+			c1.setFrom(null);
+		}else{
+			c2.setFrom(null);
+		}
+		
+		if(d1.getFrom().equals(d2.getHere())){
+			d1.setFrom(null);
+		}else{
+			d2.setFrom(null);
+		}
+		
+		a1.setParberryPoint(b1.getHere());
+		d1.setParberryPoint(a2.getHere());
+		c2.setParberryPoint(d2.getHere());
+		b2.setParberryPoint(c1.getHere());		
+		
 		return combined;
 	}
+
 
 	private MoveNode[][] copyOf(MoveNode[][] array) {
 		MoveNode[][] ret = new MoveNode[array.length][array[0].length];
@@ -272,9 +326,9 @@ public class KnightsTourParb {
 			
 		}
 		
-		if(k == (h*w)+1 && hereI == 0 && hereJ == 0)
+		if(k == (h*w)+1 && hereI == 0 && hereJ == 0){
 			return true;
-		
+		}
 		
 		for(MoveNode next : here.getSortedNeighbours()){
 			if(next != from && !next.isVisited()){
@@ -324,7 +378,7 @@ public class KnightsTourParb {
 	
 
 	public static void main(String[] args){
-		KnightsTourParb k = new KnightsTourParb(14);
+		KnightsTourParb k = new KnightsTourParb(6);
 		//455810968 24648 with disct for 6
 		//540925981 22080 otherwise for 6
 		//98803214 36762

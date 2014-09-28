@@ -32,13 +32,22 @@ public class KnightPanelOPT extends JPanel {
 		if(board!= null){
 			for(int i = 0; i < board.length; i++){
 				for (int j = 0; j < board[0].length; j++){
+					int extra = offset + squareSize/2;
 					g.drawRect(offset+(i*squareSize), offset+(j*squareSize), squareSize, squareSize);
 					assert board[i][j] != null : board[i][j];
+					if(board[i][j].getParberryPoint() != null){
+						Point here = board[i][j].getHere();
+						System.out.println("Parb!");
+						System.out.println(board[i][j].getParberryPoint());
+						Point parb = board[i][j].getParberryPoint();
+						g.drawLine((parb.x * squareSize)+extra, (parb.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
+					}
 					if(board !=null && board[i][j]!=null && board[i][j].getFrom()!=null && board[i][j].isVisited()){
-						int extra = offset + squareSize/2;
+						
 						Point from = board[i][j].getFrom();
 						Point here = board[i][j].getHere();
-						Arrow.drawArrow(g, (from.x * squareSize)+extra, (from.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
+						g.drawLine((from.x * squareSize)+extra, (from.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
+						
 					}
 				}
 			}
