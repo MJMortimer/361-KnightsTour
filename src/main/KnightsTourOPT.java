@@ -62,7 +62,7 @@ public class KnightsTourOPT {
 		long st = System.currentTimeMillis();
 		boolean isone = knightBT(board, board[0][0], null, boardSize, 1);
 		long dur = System.currentTimeMillis() - st; 
-		this.p.setBoard(board);
+		this.p.setBoard(board, dur);
 		this.p.repaint();
 
 		System.out.println("done "+ count + " " +dur);
@@ -161,10 +161,7 @@ public class KnightsTourOPT {
 	
 
 	public static void main(String[] args){
-		KnightsTourOPT k = new KnightsTourOPT(6);
-		//455810968 24648 with disct for 6
-		//540925981 22080 otherwise for 6
-		//98803214 36762
+		KnightsTourOPT k = new KnightsTourOPT(Integer.parseInt(args[0]));
 	}
 }
 

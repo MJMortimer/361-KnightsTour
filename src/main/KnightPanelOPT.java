@@ -14,6 +14,7 @@ public class KnightPanelOPT extends JPanel {
 	public int squareSize;
 	public int offset = 10;
 	public MoveNode[][] board;
+	private long timeTaken;
 
 	public KnightPanelOPT(int size){
 		this.boardSize = size;
@@ -35,10 +36,8 @@ public class KnightPanelOPT extends JPanel {
 					int extra = offset + squareSize/2;
 					g.drawRect(offset+(i*squareSize), offset+(j*squareSize), squareSize, squareSize);
 					assert board[i][j] != null : board[i][j];
-					if(board[i][j].getParberryPoint() != null){
+					if(board[i][j]!=null && board[i][j].getParberryPoint() != null){
 						Point here = board[i][j].getHere();
-						System.out.println("Parb!");
-						System.out.println(board[i][j].getParberryPoint());
 						Point parb = board[i][j].getParberryPoint();
 						g.drawLine((parb.x * squareSize)+extra, (parb.y * squareSize) +extra, (here.x * squareSize)+extra, (here.y * squareSize)+extra);
 					}
@@ -52,11 +51,16 @@ public class KnightPanelOPT extends JPanel {
 				}
 			}
 		}
-
+		if(timeTaken != 0){
+			g.drawString(String.format("Time taken: %d ms",timeTaken), 10, boardSize*squareSize+3+offset*2);
+		}else{
+			g.drawString("Computing...", 10, boardSize*squareSize+3+offset*2);
+		}
 	}
 
-	public void setBoard(MoveNode[][] b){
+	public void setBoard(MoveNode[][] b, long dur){
 		this.board = b;
+		this.timeTaken = dur;
 	}
 }
 

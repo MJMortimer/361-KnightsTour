@@ -40,8 +40,10 @@ public class KnightsTour {
 			}
 		}
 
+		long st = System.currentTimeMillis();
 		knightBT(board, 0, 0, 0, 0, boardSize, 1);
-		this.p.setBoard(board);
+		long dur = System.currentTimeMillis() - st; 
+		this.p.setBoard(board, dur);
 		this.p.repaint();
 
 		System.out.println("done "+ count);
@@ -86,8 +88,7 @@ public class KnightsTour {
 
 
 	public static void main(String[] args){
-		KnightsTour k = new KnightsTour(12);
-		//540925981
+		KnightsTour k = new KnightsTour(Integer.parseInt(args[0]));
 	}
 }
 

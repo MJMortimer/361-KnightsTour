@@ -14,6 +14,7 @@ public class KnightPanel extends JPanel {
 	public int squareSize;
 	public int offset = 10;
 	public Move[][] board;
+	private long timeTaken;
 
 	public KnightPanel(int size){
 		this.boardSize = size;
@@ -36,12 +37,18 @@ public class KnightPanel extends JPanel {
 				}
 			}
 		}
-		Graphics2D g2d;
+		if(timeTaken != 0){
+			g.drawString(String.format("Time taken: %d ms",timeTaken), 10, boardSize*squareSize+3+offset*2);
+		}else{
+			g.drawString("Computing...", 10, boardSize*squareSize+3+offset*2);
+		}
+		
 
 	}
 
-	public void setBoard(Move[][] b){
+	public void setBoard(Move[][] b, long dur){
 		this.board = b;
+		this.timeTaken = dur;
 	}
 }
 
